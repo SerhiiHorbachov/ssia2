@@ -16,21 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 /**
  * In earlier versions of Spring Security, a security configuration class needed to extend a class named WebSecurityConfigurerAdapter.
  * We don’t use this practice anymore today.
+ *
+ * Any of these configuration options are correct. The first option, where we add the beans to the context,
+ * lets you inject the values in another class where you might potentially need them.
+ * But if you don’t need that for your case, the second option would be equally good.
  */
 @Configuration
 public class ProjectConfig {
-
-    @Bean
-    UserDetailsService userDetailsService() {
-        //Class User in the org.springframework.security.core.userdetails package.
-        //It’s the builder implementation we use to create the object to represent the user.
-        UserDetails user1 = User.withUsername("John")
-                .password("12345")
-                .authorities("read")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1);
-    }
 
     /**
      * When using the default UserDetailsService, a PasswordEncoder is also auto-configured.
@@ -49,8 +41,16 @@ public class ProjectConfig {
 
         //authorizeHttpRequests() – Calling this method you instructed the app how it should authorize the requests received
         // on specific endpoints
-        http.authorizeHttpRequests(customizer -> customizer.anyRequest().permitAll());
+        http.authorizeHttpRequests(customizer -> customizer.anyRequest().authenticated());
 
+        UserDetails user = User.withUsername("john")
+                .password("12345")
+                .authorities("read")
+                .build();
+
+        UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user);
+
+        http.userDetailsService(userDetailsService);
         return http.build();
     }
 
