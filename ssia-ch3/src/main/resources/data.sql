@@ -3,7 +3,7 @@ INSERT INTO `spring_security`.`authorities`
 VALUES
     ('john', 'write');
 
-INSERT INTO `spring_security`.`users`
-(username, password, enabled)
+INSERT INTO `spring_security`.`members`
+(name, pwd, enabled)
 VALUES
     ('john', '12345', '1');

@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS `spring_security`.`users` (
+CREATE TABLE IF NOT EXISTS `spring_security`.`members` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(45) NOT NULL,
-    `password` VARCHAR(45) NOT NULL,
+    `name` VARCHAR(45) NOT NULL,
+    `pwd` VARCHAR(45) NOT NULL,
     `enabled` INT NOT NULL,
     PRIMARY KEY (`id`));
 
